@@ -1,11 +1,13 @@
-// eslint-disable-next-line import/extensions
+import dotenv from 'dotenv';
 import web from './application/web.js';
-// import rabbit from './services/rebbit-mq-service.js';
 import { consume } from './services/rebbit-mq-service.js';
 
-web.listen(3000, () => {
+dotenv.config();
+const port = process.env.PORT;
+
+web.listen(port, () => {
     // eslint-disable-next-line no-console
-    console.log('app runnning at port 3000');
+    console.log(`app runnning at port ${port}`);
 
     consume('push-notification');
 });

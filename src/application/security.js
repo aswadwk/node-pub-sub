@@ -31,6 +31,12 @@ const verifyRefreshToken = (token) => {
     }
 };
 
+const verifyApiKey = (apiKey) => {
+    if (apiKey !== process.env.API_KEY) {
+        throw new ResponseError(401, 'Invalid API Key.');
+    }
+};
+
 const decodeToken = (token) => Jwt.decode(token);
 
 export {
@@ -39,4 +45,5 @@ export {
     verifyAccessToken,
     verifyRefreshToken,
     decodeToken,
+    verifyApiKey,
 };
