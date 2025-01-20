@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3005:3003"
+      - "${PORT}:3003"
     environment:
       - PORT=3003
       - API_KEY=${API_KEY}
@@ -17,7 +17,7 @@ services:
         condition: service_healthy
 
   rabbitmq:
-    image: rabbitmq-with-delay
+    image: aswadwk/rabbitmq-with-delay
     container_name: rabbitmq
     ports:
       - "5672:5672"
