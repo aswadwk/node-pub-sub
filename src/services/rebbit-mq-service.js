@@ -45,6 +45,14 @@ const publish = async (message, exchange = 'delayed_exchange', routingKey = 'pus
         }, // metadata
         message, // message content
     ); // message content
+
+    process.on('SIGINT', async () => {
+        await pub.close();
+    });
+
+    process.on('SIGTERM', async () => {
+        await pub.close();
+    });
 };
 
 const consume = async (queue = 'push-notification') => {
@@ -83,6 +91,22 @@ const consume = async (queue = 'push-notification') => {
     consumer.on('error', (err) => {
         console.error('error consuming message', err);
     });
+
+    process.on('SIGINT', async () => {
+        await consumer.close();
+    });
+
+    process.on('SIGTERM', async () => {
+        await consumer.close();
+    });
 };
+
+process.on('SIGINT', async () => {
+    await rabbit.close();
+});
+
+process.on('SIGTERM', async () => {
+    await rabbit.close();
+});
 
 export { publish, consume };
