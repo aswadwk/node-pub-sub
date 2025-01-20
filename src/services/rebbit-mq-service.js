@@ -1,6 +1,8 @@
+import dotenv from 'dotenv';
 import { Connection } from 'rabbitmq-client';
-// import { handleJob } from './app-service.js';
 import appService from './app-service.js';
+
+dotenv.config();
 
 const AMQP_URL = process.env.AMQP_URL || 'amqp://guest:guest@localhost:5672';
 const CONNECTION_TIMEOUT = 5000;
