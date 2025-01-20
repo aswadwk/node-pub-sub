@@ -1,4 +1,6 @@
 import { Connection } from 'rabbitmq-client';
+// import { handleJob } from './app-service.js';
+import appService from './app-service.js';
 
 const AMQP_URL = process.env.AMQP_URL || 'amqp://guest:guest@localhost:5672';
 const CONNECTION_TIMEOUT = 5000;
@@ -78,14 +80,7 @@ const consume = async (queue = 'push-notification') => {
             // autoDelete: true,
         }],
     }, async (msg) => {
-        console.log('received message (delayed_exchange)', msg);
-        console.log('received message (delayed_exchange)', msg.body);
-        // The message is automatically acknowledged (BasicAck) when this function ends.
-        // If this function throws an error, then msg is rejected (BasicNack) and
-        // possibly requeued or sent to a dead-letter exchange. You can also return a
-        // status code from this callback to control the ack/n
-        // Explicitly acknowledge the message
-        // await msg.
+        await appService.handleJob(msg.body);
     });
 
     consumer.on('error', (err) => {
