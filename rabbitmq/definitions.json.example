@@ -1,0 +1,78 @@
+{
+    "permissions": [
+        {
+            "configure": ".*",
+            "read": ".*",
+            "user": "aswad",
+            "vhost": "/",
+            "write": ".*"
+        }
+    ],
+    "bindings": [
+        {
+            "arguments": {},
+            "destination": "push-notification",
+            "destination_type": "queue",
+            "routing_key": "push-notification",
+            "source": "delayed_exchange",
+            "vhost": "/"
+        }
+    ],
+    "queues": [
+        {
+            "arguments": {
+                "x-queue-type": "quorum"
+            },
+            "auto_delete": false,
+            "durable": true,
+            "name": "push-notification",
+            "type": "quorum",
+            "vhost": "/"
+        }
+    ],
+    "parameters": [],
+    "policies": [],
+    "rabbitmq_version": "4.0.5",
+    "rabbit_version": "4.0.5",
+    "exchanges": [
+        {
+            "arguments": {
+                "x-delayed-type": "direct"
+            },
+            "auto_delete": false,
+            "durable": true,
+            "name": "delayed_exchange",
+            "type": "x-delayed-message",
+            "vhost": "/"
+        }
+    ],
+    "vhosts": [
+        {
+            "default_queue_type": "classic",
+            "limits": [],
+            "metadata": {
+                "description": "Default virtual host",
+                "tags": []
+            },
+            "name": "/"
+        }
+    ],
+    "users": [
+        {
+            "hashing_algorithm": "rabbit_password_hashing_sha256",
+            "limits": {},
+            "name": "aswad",
+            "password_hash": "y17PFqd9GrOecECZjNyjK7+4JoIr/A42Sqf4MksNTizw7dte",
+            "tags": [
+                "administrator"
+            ]
+        }
+    ],
+    "global_parameters": [
+        {
+            "name": "cluster_tags",
+            "value": []
+        }
+    ],
+    "topic_permissions": []
+}
