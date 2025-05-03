@@ -1,5 +1,5 @@
 import web from './application/web.js';
-import rabbitMQService from './services/rebbit-mq-service.js';
+import rabbitMQService from './services/rabbit-mq-service.js';
 
 const port = process.env.PORT;
 
