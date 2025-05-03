@@ -1,16 +1,17 @@
+import logger from '../application/logging.js';
+
 const handleJob = async (msg) => {
-    // http request based on the message body;
     const {
         url, method, headers, body,
     } = msg;
 
-    // http request based on the message body;
     try {
-        console.log('http request based on the message body');
+        logger.info('handleJob', {
+            url, method, headers, body,
+        });
 
-        const response = await fetch(url, {
+        await fetch(url, {
             method,
-            // headers,
             headers: {
                 'Content-Type': 'application/json',
                 ...headers,
@@ -18,9 +19,10 @@ const handleJob = async (msg) => {
             body: JSON.stringify(body),
         });
 
-        console.log('response', response);
+        return true;
     } catch (error) {
-        console.error('error', error);
+        logger.error('Error handling job:', { error });
+        return false;
     }
 };
 
