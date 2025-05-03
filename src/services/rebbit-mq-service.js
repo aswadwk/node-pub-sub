@@ -33,6 +33,9 @@ class RabbitMQService {
             // Single instance of cleanup handlers
             this.setupCleanupHandlers();
 
+            logger.info('RabbitMQ connection established successfully.');
+            // Wait for the connection to be established
+
             this.isInitialized = true;
         } catch (error) {
             logger.error('Failed to initialize RabbitMQ connection:', { error });
