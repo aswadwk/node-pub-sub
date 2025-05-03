@@ -15,8 +15,8 @@ cp .env.example .env
 example:
 
 ```bash
-RABBITMQ_DEFAULT_USER=user
-RABBITMQ_DEFAULT_PASS=password
+RABBITMQ_DEFAULT_USER=aswad
+RABBITMQ_DEFAULT_PASS=aswad
 ```
 
 Setup definitions json file in the rabbitmq folder, this file is used to create the exchanges, queues, and bindings.
