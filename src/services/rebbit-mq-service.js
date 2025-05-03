@@ -14,10 +14,13 @@ const rabbit = new Connection(AMQP_URL, {
 
 export default rabbit;
 
+let pub = null;
+let consumer = null;
+
 // publish a message
 const publish = async (message, exchange = 'delayed_exchange', routingKey = 'push-notification', delayInSecond = 5000) => {
     // See API docs for all options
-    const pub = rabbit.createPublisher({
+    pub = rabbit.createPublisher({
         // Enable publish confirmations, similar to consumer acknowledgements
         confirm: true,
         // Enable retries
@@ -49,19 +52,11 @@ const publish = async (message, exchange = 'delayed_exchange', routingKey = 'pus
         }, // metadata
         message, // message content
     ); // message content
-
-    process.on('SIGINT', async () => {
-        await pub.close();
-    });
-
-    process.on('SIGTERM', async () => {
-        await pub.close();
-    });
 };
 
 const consume = async (queue = 'push-notification') => {
     // Create a consumer
-    const consumer = rabbit.createConsumer({
+    consumer = rabbit.createConsumer({
         queue,
         noAck: false,
         queueOptions: {
@@ -88,21 +83,18 @@ const consume = async (queue = 'push-notification') => {
     consumer.on('error', (err) => {
         console.error('error consuming message', err);
     });
-
-    process.on('SIGINT', async () => {
-        await consumer.close();
-    });
-
-    process.on('SIGTERM', async () => {
-        await consumer.close();
-    });
 };
 
+// Tambahkan listener hanya sekali
 process.on('SIGINT', async () => {
+    if (pub) await pub.close();
+    if (consumer) await consumer.close();
     await rabbit.close();
 });
 
 process.on('SIGTERM', async () => {
+    if (pub) await pub.close();
+    if (consumer) await consumer.close();
     await rabbit.close();
 });
 
