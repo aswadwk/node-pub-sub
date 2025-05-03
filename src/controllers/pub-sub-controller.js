@@ -14,7 +14,7 @@ const sanitizeSecrets = (obj, secrets) => {
     const sanitized = { ...obj };
 
     for (const key in sanitized) {
-        if (secrets.includes(key)) {
+        if (secrets.includes(key.toLowerCase())) {
             sanitized[key] = '********';
         } else if (typeof sanitized[key] === 'object') {
             sanitized[key] = sanitizeSecrets(sanitized[key], secrets);
